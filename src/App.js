@@ -5,24 +5,15 @@ import './App.css';
 // Component Dependencies
 
 import HomePage from './pages/homepage/homepage.component';
-
-//Temporary Component, for exercise purposes only
-
-const HatsPage = () => (
-  <div>
-    <h1>HATS PAGE </h1>
-  </div>
-);
-
-//End of Temporary Component, for exercise purposes only
+import ShopPage from './pages/shop-page/shop-page.component';
 
 function App() {
   return (
     <div>
-    <Switch>
-      <Route exact path='/' component={HomePage} />
-      <Route path='/hats' component={HatsPage} />
-    </Switch>
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Route path='/shop' component={ShopPage} />
+      </Switch>
     </div>
   );
 }
