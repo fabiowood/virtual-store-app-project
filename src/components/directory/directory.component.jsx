@@ -48,7 +48,7 @@ class Directory extends Component {
   }
   render() {
     return (
-      <div className="directory-menu">
+      <section className="directory-menu">
         {
           this.state.sections.map(({ id, ...otherSectionProps }) => {
             return (
@@ -57,7 +57,7 @@ class Directory extends Component {
           })
 
         }
-      </div>
+      </section>
     );
   }
 }

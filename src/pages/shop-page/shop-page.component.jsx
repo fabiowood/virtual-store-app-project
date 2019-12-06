@@ -17,7 +17,7 @@ class ShopPage extends Component {
   render() {
     const { collections } = this.state;
     return(
-      <div className='shop-page'>
+      <section className='shop-page'>
         {
           collections.map(({id, ...otherSectionProps}) => {
             return (
@@ -26,7 +26,7 @@ class ShopPage extends Component {
           })
         }
       
-      </div>
+      </section>
     )
   }
 }
