@@ -5,7 +5,7 @@ import "./sign-in.styles.scss";
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { signInWithGoogle } from '../../firebase/firebase.utilities';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utilities';
 
 class SignIn extends Component {
   constructor(props) {
@@ -16,12 +16,25 @@ class SignIn extends Component {
     };
   }
 
-  handleSubmit = event => {
+  // It is necessary to change our handler to 'async', because we will use a method from Firebase, and this is an assyncronous operation (we are calling the Firebase API).
+
+  handleSubmit = async event => {
     event.preventDefault();
-    this.setState({
-      email: "",
-      password: ""
-    });
+    const { email, password } = this.state;
+    
+    try {
+
+        // We need to use a specific auth method to tell the application that we are signing-in with e-mail and password. The sintax is precisely as described below:
+
+        await auth.signInWithEmailAndPassword(email, password);
+        this.setState({
+          email: '',
+          password: '',
+        })
+      }
+      catch(error) {
+        console.log(error);
+      }
   };
 
   handleChange = event => {
@@ -42,14 +55,16 @@ class SignIn extends Component {
             value={this.state.email}
             required
             handleChange={this.handleChange}
-            label='email'
+            name='email'
+            label='Email'
           />
           <FormInput
             type="password"
             value={this.state.password}
             required
             handleChange={this.handleChange}
-            label='password'
+            name='password'
+            label='Password'
           />
           <div className='buttons'>
             <CustomButton type="submit" >SIGN IN</CustomButton>

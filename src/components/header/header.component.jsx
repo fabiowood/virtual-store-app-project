@@ -4,6 +4,10 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.styles.scss";
 import { auth } from '../../firebase/firebase.utilities';
 
+ // We are receiving the current user to define what to display inside the header. If the user is logged, we should display a sign-out option. Ohterwise, we will display a sign-in option.
+
+ // For that, we need to import the auth() method from Firebase.
+
 // The signOut() is a method provided by Firebase.
 
 const Header = ({ currentUser }) => {
@@ -12,7 +16,7 @@ const Header = ({ currentUser }) => {
       <Link to="/" className="logo-container" alt="shop logo">
         <Logo className='logo' />
       </Link>
-      <navbar className='options'>
+      <nav className='options'>
         <Link to='/shop' className='option'>
           SHOP
         </Link>
@@ -28,7 +32,7 @@ const Header = ({ currentUser }) => {
             SIGN IN
             </Link>)
         }
-      </navbar>
+      </nav>
     </header>
   );
 };

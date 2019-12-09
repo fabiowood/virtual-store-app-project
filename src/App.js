@@ -8,7 +8,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop-page/shop-page.component';
 import Header from './components/header/header.component';
 import SignInSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth } from './firebase/firebase.utilities';
+import { auth, createUserProfileDocument } from './firebase/firebase.utilities';
 
 class App extends Component {
   constructor(){
@@ -27,10 +27,25 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({
-        currentUser: user,
-      })
+    this.unsubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
+      if(userAuth) {
+
+        // if the user is authenticated, then we find the document reference object, and then the snapshot. However, to access the user properties, we need to call the .data() method and combine it to the user id. By then, it will be possible to confirm to the application that the user is actually logged in, because now we are storing the user object in our application.
+
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapshot => {
+          this.setState({
+            currentUser: {
+              id: snapshot.id,
+              ...snapshot.data()
+            }
+          }, () => console.log(this.state))
+        })
+      } else {
+        this.setState({
+          currentUser: userAuth
+        }, () => console.log(this.state))
+      }
     })
   }
 
