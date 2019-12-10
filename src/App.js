@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './App.css';
 
@@ -59,14 +59,24 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/sign-in' component={SignInSignUpPage} />
+          <Route path='/sign-in' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInSignUpPage /> } />
         </Switch>
       </div>
     );
   }
 }
 
-// We need a function that dispatches the Action Object to the reducers, as described below. In this case, we will use connect, but only for its second argument, because the App does not need to control the user state anymore. The App does nothing with the currentUser.
+// We need a function to use the currentUser, in order to decide if the sign-in component should be displayed. If the user is authenticated, it can not have access to the sign-in.
+
+// Translating the code: give me the state of the user object, which is inside the UserReducer, and then apply it to my currentUser state. 
+
+// IMPORTANT: always destructure something, whenever you need to have access to the value of a variable, to the data of an object, and so on. Ex: user object.
+
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+});
+
+// We need a function that dispatches the Action Object to the reducers, as described below. 
 
 // Translating the code: whatever action object you give me, I will pass it to all reducers.
 
@@ -74,4 +84,4 @@ const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,23 +1,23 @@
-import { userActionTypes } from './user.action.types';
+import { cartActionTypes } from './cart.action.types';
 
 // We need to set the initial state to redux:
 
 const INITIAL_STATE = {
-  currentUser: null
+  hiddenDropdown: true
 }
 
 // We need to set a function to change the state. It is necessary to have a default (or else) statement, because all the reducers will receive each action at first, no matter the type of action. That reducer will only generate a new object, in case the action.type is the one that this reducer has the control.
 
-const userReducer = (currentState = INITIAL_STATE, action) => {
+const cartReducer = (currentState = INITIAL_STATE, action) => {
   switch(action.type) {
-    case userActionTypes.SET_CURRENT_USER:
+    case cartActionTypes.TOOGLE_CART_DISPLAY:
       return {
         ...currentState,
-        currentUser: action.payload
+        hiddenDropdown: !currentState.hiddenDropdown
       }
     default:
       return currentState;
   }
 }
 
-export default userReducer;
+export default cartReducer;

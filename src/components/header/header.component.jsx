@@ -5,13 +5,18 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.styles.scss";
 import { auth } from '../../firebase/firebase.utilities';
 
+// Component Dependencies
+
+import CartIcon from '../cart-icon/cart-icon.component.jsx';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+
  // We are receiving the current user to define what to display inside the header. If the user is logged, we should display a sign-out option. Ohterwise, we will display a sign-in option.
 
  // For that, we need to import the auth() method from Firebase.
 
 // The signOut() is a method provided by Firebase.
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, hiddenDropdown }) => {
   return (
     <header className="header">
       <Link to="/" className="logo-container" alt="shop logo">
@@ -33,19 +38,27 @@ const Header = ({ currentUser }) => {
             SIGN IN
             </Link>)
         }
+        <CartIcon />
       </nav>
+      {
+        hiddenDropdown ?
+        null 
+        :
+        <CartDropdown />
+      }
     </header>
   );
 };
 
 // Below we are writing a function that will returns us the state of a property inside a specified reducer. This code will be used several times in our application. Note: mapStateTo Props is not a default name, but is the one most used function name by developers.
 
-// Translating the code: give me the state of the user object, which is inside the UserReducer, and then apply it to my currentUser state.
+// Translating the code: give me the state of the user object, which is inside the UserReducer or the CartReducer, and then apply it to my currentUser and hiddenDropdown states.
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  hiddenDropdown: state.cartDropdownDisplay.hiddenDropdown
 });
 
-// Connect is a high order component (HOC). A HOC is a function that receives a component as a argument and returns a new component, with new privileges. This code will also be used several times in our application.
+// Connect is a high order component (HOC). A HOC is a function that receives a component as a argument and returns a new component, with higher privileges. This code will also be used several times in our application.
 
 export default connect(mapStateToProps)(Header);

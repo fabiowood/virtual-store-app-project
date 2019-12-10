@@ -2,9 +2,11 @@
 
 // The function below returns a action object, which will be dispatched later on to all the application Reducers! See more in the App.js
 
+import { userActionTypes } from './user.action.types';
+
 export const setCurrentUser = user => {
   return ({
-    type: 'SET_CURRENT_USER',
+    type: userActionTypes.SET_CURRENT_USER,
     payload: user
   })
 };
