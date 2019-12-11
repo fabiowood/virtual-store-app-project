@@ -14,7 +14,7 @@ import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends Component {
 
-  // IMPORTANT: with Redux, there is no need to have a constructor, a super and a state anymore. Instead of this.state, we will replace it by this.props.setCurrentUser.
+  // IMPORTANT: with Redux, there is no need to have a constructor, a super and a state anymore. Instead of this.state, we will replace it by this.props.setCurrentUser, for example.
 
   // The onAuthStateChanged method is an open communication system between Firebase and the application. This is an open subscription and, with this in mind, we need to close it, if there is a change in the user state.
 

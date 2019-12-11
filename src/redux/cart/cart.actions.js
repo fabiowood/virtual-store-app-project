@@ -10,3 +10,10 @@ export const setCartDropdownDisplay = () => {
   })
 };
 
+export const addItem = (item) => {
+  return ({
+    type: cartActionTypes.ADD_ITEM_TO_CART,
+    payload: item
+  })
+};
+
