@@ -1,26 +1,38 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import {createStructuredSelector} from 'reselect';
+import { connect } from 'react-redux';
 import './checkout-item.styles.scss';
 
 // Component Dependencies
 
-// import { selectCartItems } from '../../redux/cart/cart.selectors';
+import { addItem } from '../../redux/cart/cart.actions';
+import { removeItem } from '../../redux/cart/cart.actions';
+import { removeQuantityFromItem } from '../../redux/cart/cart.actions';
 
-const CheckOutItem = ({cartItem: {imageUrl, name, quantity, price}}) => {
+const CheckOutItem = ({cartItem, addItem, removeItem, removeQuantityFromItem}) => {
+  const {imageUrl, name, quantity, price} = cartItem;
   return (
-    <section className='checkout-item'>
+    <article className='checkout-item'>
       <picture className='image-container'>
         <img src={imageUrl} alt='item in your checkout ready to buy'/>
       </picture>
-      <span className='name'>{name}</span>
-      <span className='quantity'>{quantity}</span>
-      <span className='price'>${price}</span>
-      <div className='remove-button'>&#10005;</div>
-    </section>
+      <div className='name'>{name}</div>
+      <div className='quantity'>
+        <div className='arrow' onClick={() => removeQuantityFromItem(cartItem)}>&#10094;</div>
+          <span className='value'>{quantity}</span>
+        <div className='arrow' onClick={() => addItem(cartItem)}>&#10095;</div>
+      </div>
+      <div className='price'>${price}</div>
+      <div className='remove-button' onClick={() => removeItem(cartItem)}>&#10005;</div>
+    </article>
   )
 }
 
+const mapDispatchToProps = dispatch => ({
+  addItem: (item) => dispatch(addItem(item)),
+  removeItem: (item) => dispatch(removeItem(item)),
+  removeQuantityFromItem: (item) => dispatch(removeQuantityFromItem(item))
+});
 
+export default connect(null, mapDispatchToProps)(CheckOutItem);
 
-export default CheckOutItem;
+// The hexadecimals used correspond to wingding icons. More about it: https://www.w3schools.com/charsets/ref_utf_dingbats.asp

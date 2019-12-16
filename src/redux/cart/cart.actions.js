@@ -17,3 +17,17 @@ export const addItem = (item) => {
   })
 };
 
+export const removeItem = (item) => {
+  return ({
+    type: cartActionTypes.REMOVE_ITEM_FROM_CART,
+    payload: item
+  })
+};
+
+export const removeQuantityFromItem = (item) => {
+  return ({
+    type: cartActionTypes.REMOVE_QUANTITY_FROM_ITEM,
+    payload: item
+  })
+}
+

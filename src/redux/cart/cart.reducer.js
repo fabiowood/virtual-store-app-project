@@ -1,5 +1,7 @@
 import { cartActionTypes } from './cart.action.types';
 import { addItemToCart } from './cart.utilities';
+import { removeItemFromCart } from './cart.utilities';
+import { removeQuantityFromCart } from './cart.utilities';
 
 // We need to set the initial state to Redux:
 
@@ -22,6 +24,16 @@ const cartReducer = (currentState = INITIAL_STATE, action) => {
         ...currentState,
         // In the code below, we are simply defining that the cartItems array will remain with its elements, plus the action.payload, as a new item to the end of the array.
         cartItems: addItemToCart(currentState.cartItems, action.payload)
+      }
+    case cartActionTypes.REMOVE_ITEM_FROM_CART:
+      return {
+        ...currentState,
+        cartItems: removeItemFromCart(currentState.cartItems, action.payload)
+      }
+    case cartActionTypes.REMOVE_QUANTITY_FROM_ITEM:
+      return {
+        ...currentState,
+        cartItems: removeQuantityFromCart(currentState.cartItems, action.payload)
       }
     default:
       return currentState;
