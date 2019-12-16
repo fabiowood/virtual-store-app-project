@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 import './App.css';
 
 // Component Dependencies
@@ -9,8 +10,11 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop-page/shop-page.component';
 import Header from './components/header/header.component';
 import SignInSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+import CheckOutPage from './pages/checkout-page/checkout-page.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utilities';
 import { setCurrentUser } from './redux/user/user.actions';
+import { selectCurrentUser } from './redux/user/user.selectors';
+
 
 class App extends Component {
 
@@ -60,6 +64,7 @@ class App extends Component {
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
           <Route path='/sign-in' render={() => this.props.currentUser ? <Redirect to='/' /> : <SignInSignUpPage /> } />
+          <Route path='/checkout' component={CheckOutPage} />
         </Switch>
       </div>
     );
@@ -68,17 +73,17 @@ class App extends Component {
 
 // We need a function to use the currentUser, in order to decide if the sign-in component should be displayed. If the user is authenticated, it can not have access to the sign-in.
 
-// Translating the code: give me the state of the user object, which is inside the UserReducer, and then apply it to my currentUser state. 
+// Translating the line code below: give me the state of the user object, which is inside the UserReducer, and then apply it to my currentUser state. 
+
+const mapStateToProps = createStructuredSelector ({
+  currentUser: selectCurrentUser
+});
 
 // IMPORTANT: always destructure something, whenever you need to have access to the value of a variable, to the data of an object, and so on. Ex: user object.
 
-const mapStateToProps = ({user}) => ({
-  currentUser: user.currentUser
-});
-
 // We need a function that dispatches the Action Object to the reducers, as described below. 
 
-// Translating the code: whatever action object you give me, I will pass it to all reducers.
+// Translating the code: whatever action object you give me, I will pass it to the root reducer.
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))

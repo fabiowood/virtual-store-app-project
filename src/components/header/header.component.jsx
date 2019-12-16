@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from 'react-redux';
+import {createStructuredSelector} from 'reselect';
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import "./header.styles.scss";
 import { auth } from '../../firebase/firebase.utilities';
@@ -9,10 +10,11 @@ import { auth } from '../../firebase/firebase.utilities';
 
 import CartIcon from '../cart-icon/cart-icon.component.jsx';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import { selectCartHiddenDropdown } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+
 
  // We are receiving the current user to define what to display inside the header. If the user is logged, we should display a sign-out option. Ohterwise, we will display a sign-in option.
-
- // For that, we need to import the auth() method from Firebase.
 
 // The signOut() is a method provided by Firebase.
 
@@ -54,9 +56,12 @@ const Header = ({ currentUser, hiddenDropdown }) => {
 
 // Translating the code: give me the state of the user object, which is inside the UserReducer or the CartReducer, and then apply it to my currentUser and hiddenDropdown states.
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser,
-  hiddenDropdown: state.cartDropdownDisplay.hiddenDropdown
+const mapStateToProps = createStructuredSelector ({
+  currentUser: selectCurrentUser,
+  hiddenDropdown: selectCartHiddenDropdown
+  // currentUser: state.user.currentUser,
+  // hiddenDropdown: state.cartDropdownDisplay.hiddenDropdown
+  // Now the component is memoized.
 });
 
 // Connect is a high order component (HOC). A HOC is a function that receives a component as a argument and returns a new component, with higher privileges. This code will also be used several times in our application.
