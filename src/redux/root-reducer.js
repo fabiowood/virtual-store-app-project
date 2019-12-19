@@ -4,6 +4,8 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './user/user-reducer';
 import cartReducer from './cart/cart.reducer';
+import directoryReducer from './directory/directory.reducer';
+import shopReducer from './shop/shop.reducer';
 
 // We need to config what we want to cache as local storage, and from which reducer to begin this cache. In our case, we want to begin from the root reducer, so the 'key' property has to be equal to 'root'.
 
@@ -18,6 +20,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   cart: cartReducer,
+  directory: directoryReducer,
+  shop: shopReducer
 });
 
 // Translating the code: we are creating a new rootReducer, with the configurations we want to make the reducers to persist their states. The reducers that must persist are the ones listed inside the 'whitelist' property.

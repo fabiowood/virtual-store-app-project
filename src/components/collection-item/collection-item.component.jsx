@@ -27,7 +27,7 @@ const CollectionItem = ({ item, addItem }) => {
 
 // Whenever that is an event (a click button), we will call the addItem() function. This function will receive the clicked item as an argument and then dispatch the addItem() action creator. This action that returns is an object, with the type ADD_ITEM_TO_CART and the payload as 'item', which is the actual item chosen by the user to be added to the cart. 
 
-// This object will then be passed to the Store, which will then trigger the redux flow, changing the state and making DOM updates.
+// This object will then be passed to the Store, which will then trigger the redux flow, changing the state, updating the store and making DOM updates.
 
 const mapDispatchToProps = dispatch => ({
   addItem: (item) => dispatch(addItem(item))

@@ -1,5 +1,7 @@
-const SHOP_DATA = [
-  {
+// This list was initially an array. The issue is that there is a performance reduction when using methods to locate data, such as .find(), because the array methods usually go from left to right inside the array. To solve this, we can store data inside objects, which is called data normalization. Notice that we need to have a key/value pair to define the properties inside the object. To find one item in a object, all we have to do is to type the object name and the property => SHOP_DATA[hats] / SHOP_DATA.hats
+
+const SHOP_DATA = {
+  hats: {
     id: 1,
     title: 'Hats',
     routeName: 'hats',
@@ -60,7 +62,7 @@ const SHOP_DATA = [
       }
     ]
   },
-  {
+  sneakers: {
     id: 2,
     title: 'Sneakers',
     routeName: 'sneakers',
@@ -115,7 +117,7 @@ const SHOP_DATA = [
       }
     ]
   },
-  {
+  jackets: {
     id: 3,
     title: 'Jackets',
     routeName: 'jackets',
@@ -152,7 +154,7 @@ const SHOP_DATA = [
       }
     ]
   },
-  {
+  women: {
     id: 4,
     title: 'Women',
     routeName: 'women',
@@ -201,7 +203,7 @@ const SHOP_DATA = [
       }
     ]
   },
-  {
+  men: {
     id: 5,
     title: 'Men',
     routeName: 'men',
@@ -244,6 +246,6 @@ const SHOP_DATA = [
       }
     ]
   }
-];
+};
 
 export default SHOP_DATA;
