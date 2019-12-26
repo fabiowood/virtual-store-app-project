@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectOneCollectionToDisplay } from '../../redux/shop/shop.selectors';
 import { createStructuredSelector} from 'reselect';
-import './collections-overview.scss';
+import { selectOneCollectionToDisplay } from '../../redux/shop/shop.selectors';
+import './collections-overview.styles.scss';
 
 // Components Dependencies
 
