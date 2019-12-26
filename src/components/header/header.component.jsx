@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom"; => replaced by styled-components!
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import { ReactComponent as Logo } from "../../assets/crown.svg";
-import "./header.styles.scss";
+// import "./header.styles.scss"; => replaced by styled-components!
 import { auth } from '../../firebase/firebase.utilities';
 
 // Component Dependencies
@@ -12,6 +12,8 @@ import CartIcon from '../cart-icon/cart-icon.component.jsx';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCartHiddenDropdown } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
+// These are the Header styled-components, creating styles through JavaScript:
+import { HeaderContainer, LogoContainer, OptionsContainer, SingleOptionContainer, LinkOptionContainer } from './header.styles'; 
 
 
  // We are receiving the current user to define what to display inside the header. If the user is logged, we should display a sign-out option. Ohterwise, we will display a sign-in option.
@@ -20,35 +22,35 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 
 const Header = ({ currentUser, hiddenDropdown }) => {
   return (
-    <header className="header">
-      <Link to="/" className="logo-container" alt="shop logo">
+    <HeaderContainer>
+      <LogoContainer to="/" alt="shop logo">
         <Logo className='logo' />
-      </Link>
-      <nav className='options'>
-        <Link to='/shop' className='option'>
+      </LogoContainer>
+      <OptionsContainer>
+        <LinkOptionContainer to='/shop'>
           SHOP
-        </Link>
-        <Link to='/shop' className='option'>
+        </LinkOptionContainer>
+        <LinkOptionContainer to='/shop'>
           CONTACT
-        </Link>
+        </LinkOptionContainer>
         {
           currentUser ?
-            (<div className='option' onClick={() => auth.signOut()}>
+            (<SingleOptionContainer onClick={() => auth.signOut()}>
             SIGN OUT
-            </div>) :
-            (<Link to='/sign-in' className='option'>
+            </SingleOptionContainer>) :
+            (<LinkOptionContainer to='/sign-in'>
             SIGN IN
-            </Link>)
+            </LinkOptionContainer>)
         }
         <CartIcon />
-      </nav>
+      </OptionsContainer>
       {
         hiddenDropdown ?
         null 
         :
         <CartDropdown />
       }
-    </header>
+    </HeaderContainer>
   );
 };
 
