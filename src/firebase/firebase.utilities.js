@@ -17,6 +17,8 @@ const config = {
   measurementId: "G-8B3MXMQG3X"
 }
 
+// ****** FIREBASE CONFIGURATIONS ****** //
+
 // Configure the database to storage our users in the application => it is importante to know that we can have a document reference object or a snapshot object from a collection of users, for example. The first is always generated, no matter if the user exists or not in our database. With that document in hands, we can access the CRUD methods, including the .get(), to retrieve data, which will return us a snapshot of the user inside the database. 
 
 // At this moment, we will finally have access to the user data, whether they exist or not in the database. If the user does not exists, the document snapshot "exists" property will return "false". 
@@ -26,9 +28,13 @@ const config = {
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if(!userAuth) return;
   const userRef = firestore.doc(`users/${userAuth.uid}`);
-  console.log(userRef);
   const snapshot = await userRef.get();
-  console.log(snapshot);
+
+  // The following 4 lines of code were created just to display what we can see inside a collection snapshot object, as well as the .JSON object returned from the .data() method => with these commands, we can access the entire docs from a collection:
+  const collectionRef = firestore.collection('users');
+  const collectionSnapshot = await collectionRef.get();
+  console.log({ collectionSnapshot });
+  console.log({collection: collectionSnapshot.docs.map(doc => doc.data())});
 
   // if the 'exists' property is false, then we will create a new user object into our database, using the documentReference Object. To create this new user, we need to choose the docReference properties that we want to be stored. In our case: displayName and email.
 
@@ -76,3 +82,52 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 export default firebase;
 
 // The next step is to import the { signInWithGoogle} method to our sign-in component => insert the Google Method inside the button tag, as a function inside onClick. onClick ={signInWithGoogle}
+
+// ****** END OF FIREBASE CONFIGURATIONS ****** //
+
+
+
+
+// ****** SUPPORTING FUNCTIONS ****** //
+
+// This will be a function to load our shop data into the firebase, and it will be used just once, for the initial transport of data. On the other hand, now we have a function to use whenever we want to create a new collection, for example:
+
+export const addCollectionAndDocuments = async (collectionKey, objectstoAdd) => {
+  // Define a new collection with the name 'collectionKey':
+  const collectionRef = firestore.collection(collectionKey);
+  console.log(collectionRef);
+  // Use the batch method, to set several documents at once, because the .set() method alone only allow us to save one document per time:
+  const batch = firestore.batch();
+  // Loop through the array of objects, and prepare the object to be added to the collection in each iteration:
+  objectstoAdd.forEach(object => {
+    const newDocumentRef = collectionRef.doc();
+    batch.set(newDocumentRef, object); 
+  });
+  // Commit will gather all the generated documents and will fire them together to the database:
+  return await batch.commit();
+}
+
+// This will be a function to convert the Snapshot Object, which is the 'collections' collection, to an actual object with objects inside (each collection), so we can be able to see the shop data in the application, with the same format from the SHOP_DATA.js:
+
+export const convertCollectionsFromSnapshotToMap = (collections) => {
+  const transformCollections = collections.docs.map (doc => {
+    const { title, items } = doc.data();
+    return (
+      {
+        routeName: encodeURI(title.toLowerCase()),
+        id: doc.id,
+        title,
+        items,
+      }
+    )
+  })
+  console.log(transformCollections);
+  return (
+    transformCollections.reduce((accumulator, collection) => {
+      accumulator[collection.title.toLowerCase()] = collection;
+      return accumulator;
+     },{})
+  )
+}
+
+// ****** END OF SUPPORTING FUNCTIONS ****** //

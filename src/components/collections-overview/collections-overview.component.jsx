@@ -19,7 +19,7 @@ const CollectionsOverview = ({collections}) => {
           })
         }
       
-      </section>
+    </section>
   )
 }
 

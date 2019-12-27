@@ -14,7 +14,7 @@ import CheckOutPage from './pages/checkout-page/checkout-page.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utilities';
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-
+// import { selectOneCollectionToDisplay } from './redux/shop/shop.selectors'; => IMPORTANT: this selector was used just one time, to load the shop data to the firebase!!
 
 class App extends Component {
 
@@ -43,7 +43,8 @@ class App extends Component {
       } else {
         setCurrentUser(
           userAuth
-        )
+        );
+        // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({ title, items }))); => IMPORTANT: this function was used just one time, to load the shop data to the firebase!!
       };
     })
   }
@@ -76,7 +77,8 @@ class App extends Component {
 // Translating the line code below: give me the state of the user object, which is inside the UserReducer, and then apply it to my currentUser state. 
 
 const mapStateToProps = createStructuredSelector ({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  // collectionsArray: selectOneCollectionToDisplay => IMPORTANT: this selector was used just one time, to load the shop data to the firebase!!
 });
 
 // IMPORTANT: always destructure something, whenever you need to have access to the value of a variable, to the data of an object, and so on. Ex: user object.
