@@ -9,16 +9,30 @@ import { shopActionTypes } from './shop.action.types';
 // };
 
 const INITIAL_STATE = {
-  collections: null
+  collections: null,
+  isFetching: false,
+  errorMessage: '',
 };
 
 
 const shopReducer = (currentState = INITIAL_STATE, action) => {
   switch (action.type) {
-    case shopActionTypes.UPDATE_COLLECTIONS:
+    case shopActionTypes.FETCH_COLLECTIONS_START:
       return {
         ...currentState,
+        isFetching: true
+      }
+    case shopActionTypes.FETCH_COLLECTIONS_SUCCESS:
+      return {
+        ...currentState,
+        isFetching: false,
         collections: action.payload
+      }
+    case shopActionTypes.FETCH_COLLECTIONS_FAILURE:
+      return {
+        ...currentState,
+        isFetching: false,
+        errorMessage: action.payload
       }
     default:
       return currentState;
