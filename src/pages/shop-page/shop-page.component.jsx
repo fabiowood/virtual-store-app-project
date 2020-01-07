@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import { firestore, convertCollectionsFromSnapshotToMap } from '../../firebase/firebase.utilities';
 import {createStructuredSelector} from 'reselect';
 import { selectIsFetchingCollections, selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
-import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import { /*fetchCollectionsStartAsync, */ fetchCollectionsStart } from '../../redux/shop/shop.actions';
 import './shop-page.styles.scss';
 
 // Components Dependencies
@@ -21,7 +21,8 @@ const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 class ShopPage extends Component {
 
 componentDidMount() {
-  this.props.fetchCollectionsStartAsync()
+  // this.props.fetchCollectionsStartAsync() => this was used with redux-thunk! Replaced by redux-saga:
+  this.props.fetchCollectionsStart()
 }
 
 render() {
@@ -41,20 +42,11 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+  // fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()) => this was used with redux-thunk! Replaced by redux-saga:
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(ShopPage);
-
-// The functional component is no longer necessary, because now we want to access the shop data from firebase, by using a life cycle method from React, and this is only possible in class components:
-
-// const ShopPage = ({ match }) => (
-//   <section className="shop-page">
-//     <Route exact path={`${match.path}`} component={CollectionsOverview} />
-//     <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
-//   </section>
-// );
-
 
 // ******** ALTERNATIVES TO WRITE ASSYNCHRONOUS FUNCTIONS - WHENEVER THERE IS NOT AN OBSERVABLE - OBSERVER PATTERN ************ //
 

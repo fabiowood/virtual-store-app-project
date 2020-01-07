@@ -67,14 +67,14 @@ export const firestore = firebase.firestore();
 
 // Access to Google Provider, as well as config a message to display whenever we use the Google Sign-In => it is a popup, to select a Google Account (Gmail).
 
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({
   prompt: 'select_account'
 })
 
 // Export method signInWithGoogle
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 
 // Export the entire firebase, in case we want to use it into other components of our application
@@ -128,6 +128,17 @@ export const convertCollectionsFromSnapshotToMap = (collections) => {
       return accumulator;
      },{})
   )
+}
+
+// This will be a function to return the user object, in case is different than null, which means the user is authenticated. With this function, we can add it to a listener, that will check if the user is still logged-in:
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  })
 }
 
 // ****** END OF SUPPORTING FUNCTIONS ****** //
