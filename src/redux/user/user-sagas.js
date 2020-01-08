@@ -1,19 +1,45 @@
 import { takeLatest, all, call, put } from 'redux-saga/effects';
 import userActionTypes from './user.action.types';
 // import { googleSignInSuccess, googleSignInFailure, emailSignInSuccess, emailSignInFailure } from './user.actions';
-import { signInSuccess, signInFailure, signOutSuccess, signOutFailure } from './user.actions';
+import { signInSuccess, signInFailure, signOutSuccess, signOutFailure, signUpSuccess, signUpFailure } from './user.actions';
 import { auth, googleProvider, createUserProfileDocument, getCurrentUser } from '../../firebase/firebase.utilities';
 
 
-export function* getSnapshotFromUserAuth(user) {
+export function* getSnapshotFromUserAuth(user, additionalData) {
   try {
-    const userRef = yield call(createUserProfileDocument, user);
+    const userRef = yield call(createUserProfileDocument, user, additionalData);
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({id: userSnapshot.id, ...userSnapshot.data()}));
   }
   catch (error) {
     yield put(signInFailure(error));
   }
+}
+
+export function* signUpStart() {
+  yield takeLatest(userActionTypes.SIGN_UP_START, signUpWithEmail);
+}
+
+
+export function* signUpWithEmail({payload: {email, password, displayName}}) {
+  try {
+    const {user} = yield auth.createUserWithEmailAndPassword(email, password);
+    yield put(signUpSuccess({user, additionalData: { displayName }}));
+  }
+  catch (error) {
+    yield put(signUpFailure(error));
+  }
+}
+
+export function* signUpWithSuccess() {
+  yield takeLatest(
+    userActionTypes.SIGN_UP_SUCCESS,
+    signInAfterSignUp
+  )
+}
+
+export function* signInAfterSignUp({ payload: { user, additionalData} }) {
+  yield getSnapshotFromUserAuth(user, additionalData)
 }
 
 export function* googleSignInStart() {
@@ -88,13 +114,14 @@ export function* signInWithEmail({payload: {email, password}}) {
       yield put(signOutFailure(error));
     }
   }
-  
 
   export function* userSagas() {
   yield all([
     call(googleSignInStart), 
     call(emailSignInStart),
     call(checkUserSession),
-    call(onSignOutStart)
+    call(onSignOutStart),
+    call(signUpStart),
+    call(signUpWithSuccess)
     ]);
-}
+  }

@@ -25,19 +25,6 @@ class SignIn extends Component {
     const { emailSignInStart } = this.props;
     const { email, password } = this.state;
     await emailSignInStart(email, password);
-    // try {
-
-        // We need to use a specific auth method to tell the application that we are signing-in with e-mail and password. The sintax is precisely as described below:
-
-      //   await auth.signInWithEmailAndPassword(email, password);
-      //   this.setState({
-      //     email: '',
-      //     password: '',
-      //   })
-      // }
-      // catch(error) {
-      //   console.log(error);
-      // }
   };
 
   handleChange = event => {

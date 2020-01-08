@@ -53,9 +53,7 @@ const Header = ({ currentUser, hiddenDropdown, signOutStart }) => {
   );
 };
 
-// Below we are writing a function that will returns us the state of a property inside a specified reducer. This code will be used several times in our application. Note: mapStateTo Props is not a default name, but is the one most used function name by developers.
-
-// Translating the code: give me the state of the user object, which is inside the UserReducer or the CartReducer, and then apply it to my currentUser and hiddenDropdown states.
+// Below we are writing a function that will returns us the state of a property inside a specified reducer. This code will be used several times in our application. Note: mapStateTo Props is not a default name, but is the most used function name by developers.
 
 const mapStateToProps = createStructuredSelector ({
   currentUser: selectCurrentUser,

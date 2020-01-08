@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import "./sign-up.styles.scss";
 
 //Components Dependencies
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utilities';
+import { signUpStart } from '../../redux/user/user.actions';
+// import { auth, createUserProfileDocument } from '../../firebase/firebase.utilities'; => replaced by reudx-saga!
 
 class SignUp extends Component {
   constructor() {
@@ -22,30 +24,16 @@ class SignUp extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    const { signUpStart } =  this.props;
     const { displayName, email, password, confirmPassword } = this.state;
     if(password !== confirmPassword) {
       alert("Password don't match. Try again");
       return;
+    } else {
+      await signUpStart(email, password, displayName);
     }
+  }
     
-    try {
-
-        // We need to use a specific auth method to tell the application that we will have to create a new user. The sintax is precisely as described below:
-
-        const { user } = await auth.createUserWithEmailAndPassword(email, password);
-        await createUserProfileDocument(user, { displayName } )
-        this.setState({
-          displayName: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        })
-      }
-      catch(error) {
-        console.log(error);
-      }
-   };
-
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({
@@ -100,4 +88,8 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+  signUpStart: (email, password, displayName) => dispatch(signUpStart({email, password, displayName})),
+})
+
+export default connect(null, mapDispatchToProps)(SignUp);
