@@ -22,4 +22,4 @@ ReactDOM.render(
   );
 
 
-  // PersistGate is the last step to implement the Local Storage persistence in our application. With the PersistGate, we can: (i) receive the Store; (ii) persist the Store, in order to "rehydrate" it with the Root Reducer current state. So, whenever there is a refresh, or the closing of a tab or the browser, the reducer state will initialize as empty, and then there will be the rehydration of the reducer, bringing what is in the cache, updating the reducer state to what it was in the current state.
+  // PersistGate is the last step to implement the Local Storage persistence in our application. With the PersistGate, we can: (i) receive the Store; (ii) persist the Store, in order to "rehydrate" it with the Root Reducer current state. So, whenever there is a refresh, or the closing of a tab or the closing of the browser itself, the reducer state will initialize as empty, and then there will be the rehydration of the reducer, bringing what is in the cache, and also updating the reducer state to what it was in the current state.

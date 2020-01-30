@@ -37,12 +37,5 @@ const CartDropdown = ({cartItems, history, dispatch}) => {
 const mapStateToProps = createStructuredSelector ({
     cartItems: selectCartItems
 })
-  // return (
-    // {cartItems: state.cart.cartItems}
-    
-    // Now the cart-dropdown component is memoized, and is not re-rendered if the state changes are not related to the component.
-    // {cartItems: selectCartItems(state)}
-  // )
-// }
 
 export default withRouter(connect(mapStateToProps)(CartDropdown));
