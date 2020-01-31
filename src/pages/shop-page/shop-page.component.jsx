@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import { firestore, convertCollectionsFromSnapshotToMap } from '../../firebase/firebase.utilities';
 import {createStructuredSelector} from 'reselect';
-import { selectIsFetchingCollections, selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
+import { /* selectIsFetchingCollections, */ selectIsCollectionLoaded } from '../../redux/shop/shop.selectors';
 import { /*fetchCollectionsStartAsync, */ fetchCollectionsStart } from '../../redux/shop/shop.actions';
 import './shop-page.styles.scss';
 
@@ -18,31 +18,25 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
-class ShopPage extends Component {
+const ShopPage = ({ fetchCollectionsStart, match, isCollectionLoaded }) => {
 
-componentDidMount() {
-  // this.props.fetchCollectionsStartAsync() => this was used with redux-thunk! Replaced by redux-saga:
-  this.props.fetchCollectionsStart()
-}
+  useEffect(() => {
+    fetchCollectionsStart()
+  }, [fetchCollectionsStart]) 
 
-render() {
-  const { match, /*isFetchingCollections,*/ isCollectionLoaded } = this.props;
-    return (
+  return (
     <section className="shop-page">
-      <Route exact path={`${match.path}`} render={(props) => ( <CollectionsOverviewWithSpinner isLoading={ !isCollectionLoaded}  {...props } /> ) } />
-      <Route path={`${match.path}/:collectionId`} render={(props) => ( <CollectionPageWithSpinner isLoading={ !isCollectionLoaded } {...props } /> ) } />
+    <Route exact path={`${match.path}`} render={(otherProps) => ( <CollectionsOverviewWithSpinner isLoading={ !isCollectionLoaded}  {...otherProps} /> ) } />
+    <Route path={`${match.path}/:collectionId`} render={(otherProps) => ( <CollectionPageWithSpinner isLoading={ !isCollectionLoaded } {...otherProps} /> ) } />
     </section>
   )
- }
-} 
+}
 
 const mapStateToProps = createStructuredSelector({
-  isFetchingCollections: selectIsFetchingCollections,
   isCollectionLoaded: selectIsCollectionLoaded
 })
 
 const mapDispatchToProps = dispatch => ({
-  // fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()) => this was used with redux-thunk! Replaced by redux-saga:
   fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
 })
 
