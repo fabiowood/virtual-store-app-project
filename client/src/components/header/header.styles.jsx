@@ -16,12 +16,23 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   margin-bottom: 25px;
+
+  @media screen and (max-width: 800px) {
+      height: 60px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
 ` 
 // This replaces the 'logo-container' classname. Note that 'Link' is an argument, and 'styled' can work as a function, that receives a component as an argument:
 export const LogoContainer = styled(Link)`
   height: 100%;
   width: 70px;
   padding: 25px;
+
+  @media screen and (max-width: 800px) {
+     height: 40px;
+     padding: 0;
+    }
 `
 // This replaces the 'options' classname:
 export const OptionsContainer = styled.nav`
@@ -30,6 +41,10 @@ export const OptionsContainer = styled.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  @media screen and (max-width: 800px) {
+      width: 80%;
+    }
 `
 // This replaces the 'option' classname, as well as uses a shared component, called HeaderCommonStyles:
 export const SingleOptionContainer = styled.div`

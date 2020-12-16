@@ -27,19 +27,21 @@ const Header = ({ currentUser, hiddenDropdown, signOutStart }) => {
       </LogoContainer>
       <OptionsContainer>
         <LinkOptionContainer to='/shop'>
-          SHOP
+          LOJA
         </LinkOptionContainer>
-        <LinkOptionContainer to='/shop'>
-          CONTACT
+        <LinkOptionContainer>
+          <a  href='mailto:fabgmad@gmail.com'>
+            CONTATO
+          </a>
         </LinkOptionContainer>
-        {
+        { /*
           currentUser ?
             (<SingleOptionContainer onClick={signOutStart}>
             SIGN OUT
             </SingleOptionContainer>) :
             (<LinkOptionContainer to='/sign-in'>
             SIGN IN
-            </LinkOptionContainer>)
+            </LinkOptionContainer>) */
         }
         <CartIcon />
       </OptionsContainer>

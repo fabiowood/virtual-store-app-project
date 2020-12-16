@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import './App.css';
+import { GlobalStyle } from './global.styles';
 
 // Component Dependencies
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop-page/shop-page.component';
 import Header from './components/header/header.component';
-import SignInSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
+// import SignInSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import CheckOutPage from './pages/checkout-page/checkout-page.component';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import { checkUserSession } from './redux/user/user.actions';
@@ -23,11 +23,12 @@ const App = ({ checkUserSession, currentUser }) => {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route path='/shop' component={ShopPage} />
-        <Route path='/sign-in' render={() => currentUser ? <Redirect to='/' /> : <SignInSignUpPage /> } />
+        {/* <Route path='/sign-in' render={() => currentUser ? <Redirect to='/' /> : <SignInSignUpPage /> } /> */}
         <Route path='/checkout' component={CheckOutPage} />
       </Switch>
     </div>
