@@ -15,23 +15,23 @@ const onToken = token => {
       token: token
     }
   }).then(response => {
-    alert('Payment successfully completed');
+    alert('Pagamento efetuado com sucesso');
   }).catch(error => {
     console.log('Payment error: ', error);
-    alert('There was a problem with the payment. Please make sure to use the correct credit card.');
+    alert('Houve um problema com o pagamento. Por gentileza, verifique se os dados de seu cartão de crédito estão corretos.');
   })
 }
 
 return (
       <StripeCheckout
-        label='Pay Now'
+        label='Pagar Agora'
         name='Virtual Clothing Ltd.'
         billingAddress
         shippingAddress
         image='https://sendeyo.com/up/d/f3eb2117da'
-        description={`Your total is $${price}`}
+        description={`Seu total é $${price}`}
         amount={priceInCentsForStripe}
-        panelLabel='Pay Now'
+        panelLabel='Pagar Agora'
         token={onToken}
         stripeKey={publishableKey}
       />

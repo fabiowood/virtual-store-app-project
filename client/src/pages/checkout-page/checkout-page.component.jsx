@@ -15,19 +15,19 @@ const CheckOutPage = ({ cartItems, cartTotalValue }) => {
     <section className='checkout-page'>
       <header className='checkout-header'>
         <div className='header-block'>
-          <span>Product</span>
+          <span>Produto</span>
         </div>
         <div className='header-block'>
-          <span>Description</span>
+          <span>Descrição</span>
         </div>
         <div className='header-block'>
-          <span>Quantity</span>
+          <span>Quantidade</span>
         </div>
         <div className='header-block'>
-          <span>Price</span>
+          <span>Preço</span>
         </div>
         <div className='header-block'>
-          <span>Remove</span>
+          <span>Remover</span>
         </div>
       </header>
       <div>
@@ -37,7 +37,7 @@ const CheckOutPage = ({ cartItems, cartTotalValue }) => {
       </div>
       <div className='total'>TOTAL: ${cartTotalValue}</div>
       <div className='test-warning'>
-        *Please use the following test credit card for payments*
+        *Utilize o cartão de crédito a seguir para testes de pagamentos*
         <br />
         4242 4242 4242 4242 - Exp: 12/22 - CVV: 123
       </div>
