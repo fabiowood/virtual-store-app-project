@@ -20,7 +20,7 @@ const CollectionItem = ({ item, addItem }) => {
           <span className='name'>{name}</span>
           <span className='price'>${price}</span>
         </div>
-        <CustomButton hoverAddToCart onClick={() => addItem(item)}>Add to Cart</CustomButton>
+        <CustomButton hoverAddToCart onClick={() => addItem(item)}>Adicionar ao Carrinho</CustomButton>
     </article>
   );
 };
